@@ -7,12 +7,12 @@
 #include "../include/error_handler.h"
 #include "../include/terminal_control.h"
 
-TerminalHandler:: TerminalHandler() {
+TerminalController:: TerminalController() {
     isRawModeEnabled = false;
     if(tcgetattr(STDIN_FILENO, &originalTermios) == -1) die("tcgetattr");
 }
 
-void TerminalHandler::enableRawMode() {
+void TerminalController::enableRawMode() {
     struct termios rawTermios = originalTermios;
     
     rawTermios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
@@ -27,13 +27,13 @@ void TerminalHandler::enableRawMode() {
     isRawModeEnabled = true;
 }
 
-void TerminalHandler::disableRawMode() {
+void TerminalController::disableRawMode() {
     if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &originalTermios) == -1) die("tcsetattr");
 
     isRawModeEnabled = false;
 }
 
-TerminalHandler::~TerminalHandler() {
+TerminalController::~TerminalController() {
     if(isRawModeEnabled){
         disableRawMode();
     }

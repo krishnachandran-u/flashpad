@@ -9,10 +9,10 @@
 
 #include "error_handler.h"
 
-class TerminalHandler {
+class TerminalController {
     public:
-        TerminalHandler();
-        ~TerminalHandler();
+        TerminalController();
+        ~TerminalController();
         void disableRawMode();
         void enableRawMode();
     private:

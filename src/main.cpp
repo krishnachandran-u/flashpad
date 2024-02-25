@@ -4,8 +4,8 @@
 #include "include/terminal_control.h"
 
 int main() {
-    TerminalHandler terminalHandler;
-    terminalHandler.enableRawMode();
+    TerminalController tc;
+    tc.enableRawMode();
 
     while(true) {
         char c = '\0';
