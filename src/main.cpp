@@ -3,8 +3,8 @@
 #include "include/raw_mode.h"
 
 int main() {
-    enableRawMode();
-    atexit(disableRawMode);
+    RawModeHandler rawModeHandler;
+    rawModeHandler.enableRawMode();
 
     while(true) {
         char c = '\0';

@@ -4,14 +4,11 @@
 #include <unistd.h>
 
 #include "../include/error_handling.h"
+#include "../include/raw_mode.h"
 
-struct termios originalTermios;
+RawModeHandler::RawModeHandler() {}
 
-void disableRawMode() {
-    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &originalTermios) == -1) die("tcsetattr");
-}
-
-void enableRawMode() {
+void RawModeHandler::enableRawMode() {
     if(tcgetattr(STDIN_FILENO, &originalTermios) == -1) die("tcgetattr");
     struct termios rawTermios = originalTermios;
     
@@ -24,3 +21,12 @@ void enableRawMode() {
 
     if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &rawTermios) == -1) die("tcsetattr");
 }
+
+void RawModeHandler::disableRawMode() {
+    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &originalTermios) == -1) die("tcsetattr");
+}
+
+RawModeHandler::~RawModeHandler() {
+    disableRawMode();
+}
+

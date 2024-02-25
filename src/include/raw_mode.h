@@ -7,9 +7,14 @@
 #include <unistd.h>
 #include "error_handling.h"
 
-extern struct termios originalTermios;
-
-void disableRawMode();
-void enableRawMode();
+class RawModeHandler {
+    public:
+        RawModeHandler();
+        ~RawModeHandler();
+        void disableRawMode();
+        void enableRawMode();
+    private:
+        struct termios originalTermios;
+};
 
 #endif
