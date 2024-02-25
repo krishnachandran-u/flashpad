@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <string>
 
-struct termios original_termios;
+struct termios originalTermios;
 
 void kill(const std::string& s) {
     std::cerr << s << std::endl;
@@ -13,21 +13,21 @@ void kill(const std::string& s) {
 }
 
 void disableRawMode() {
-    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &original_termios) == -1) kill("tcsetattr");
+    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &originalTermios) == -1) kill("tcsetattr");
 }
 
 void enableRawMode() {
-    if(tcgetattr(STDIN_FILENO, &original_termios) == -1) kill("tcgetattr");
-    struct termios raw_termios = original_termios;
+    if(tcgetattr(STDIN_FILENO, &originalTermios) == -1) kill("tcgetattr");
+    struct termios rawTermios = originalTermios;
     
-    raw_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-    raw_termios.c_iflag &= ~(OPOST);
-    raw_termios.c_iflag &= ~(CS8);
-    raw_termios.c_lflag &= ~(ECHO | ICANON | ISIG); 
-    raw_termios.c_cc[VMIN] = 0;
-    raw_termios.c_cc[VTIME] = 1;
+    rawTermios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+    rawTermios.c_iflag &= ~(OPOST);
+    rawTermios.c_iflag &= ~(CS8);
+    rawTermios.c_lflag &= ~(ECHO | ICANON | ISIG); 
+    rawTermios.c_cc[VMIN] = 0;
+    rawTermios.c_cc[VTIME] = 1;
 
-    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw_termios) == -1) kill("tcsetattr");
+    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &rawTermios) == -1) kill("tcsetattr");
 }
 
 int main() {
