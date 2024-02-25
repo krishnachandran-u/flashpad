@@ -3,8 +3,8 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include "../include/error_handling.h"
-#include "../include/raw_mode.h"
+#include "../include/error_handler.h"
+#include "../include/terminal_handler.h"
 
 RawModeHandler::RawModeHandler() {}
 

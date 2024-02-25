@@ -5,7 +5,7 @@
 #include <iostream>
 #include <termios.h>
 #include <unistd.h>
-#include "error_handling.h"
+#include "error_handler.h"
 
 class RawModeHandler {
     public:
