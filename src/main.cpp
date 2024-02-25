@@ -3,21 +3,16 @@
 #include <termios.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include <string>
+#include "include/error_handling.h"
 
 struct termios originalTermios;
 
-void kill(const std::string& s) {
-    std::cerr << s << std::endl;
-    exit(1);
-}
-
 void disableRawMode() {
-    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &originalTermios) == -1) kill("tcsetattr");
+    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &originalTermios) == -1) die("tcsetattr");
 }
 
 void enableRawMode() {
-    if(tcgetattr(STDIN_FILENO, &originalTermios) == -1) kill("tcgetattr");
+    if(tcgetattr(STDIN_FILENO, &originalTermios) == -1) die("tcgetattr");
     struct termios rawTermios = originalTermios;
     
     rawTermios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
@@ -27,7 +22,7 @@ void enableRawMode() {
     rawTermios.c_cc[VMIN] = 0;
     rawTermios.c_cc[VTIME] = 1;
 
-    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &rawTermios) == -1) kill("tcsetattr");
+    if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &rawTermios) == -1) die("tcsetattr");
 }
 
 int main() {

@@ -12,7 +12,7 @@ SOURCES := $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT))
 
 OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.$(OBJ_EXT)))
 
-TARGET = $(BIN_DIR)/your_executable_name
+TARGET = $(BIN_DIR)/bonsai
 
 all: $(TARGET)
 
