@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "include/error_handler.h"
-#include "include/terminal_handler.h"
+#include "include/terminal_control.h"
 
 int main() {
     TerminalHandler terminalHandler;

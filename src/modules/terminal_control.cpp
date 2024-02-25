@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 #include "../include/error_handler.h"
-#include "../include/terminal_handler.h"
+#include "../include/terminal_control.h"
 
 TerminalHandler:: TerminalHandler() {
     isRawModeEnabled = false;
