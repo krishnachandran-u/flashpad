@@ -1,2 +1,11 @@
-*.exe
-main
+*.csv
+*.data
+
+# Ignore executable
+executable
+
+# Ignore object files
+*.o
+
+bin/
+build/

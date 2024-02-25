@@ -1,19 +1,33 @@
 CXX = g++
-CXXVERSION = -std=c++20
-CXXFLAGS = -Wall -Wextra -Wpedantic 
+CXXFLAGS = -std=c++20 -Wall -Wextra -Wpedantic 
 
-SRC = main.cpp
-TARGET = main
+SRC_DIR = .
+BUILD_DIR = build
+BIN_DIR = bin
 
-.PHONY: all build run clean
+SRC_EXT = cpp
+OBJ_EXT = o
 
-all: build run
+SOURCES := $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT))
 
-build: $(SRC)
-	$(CXX) $(CXXVERSION) $(CXXFLAGS) -o $(TARGET) $(SRC)
+OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.$(OBJ_EXT)))
 
-run: build
-	./$(TARGET)
+TARGET = $(BIN_DIR)/your_executable_name
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $^ -o $(TARGET)
+
+$(BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.$(SRC_EXT)
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+run:
+	$(TARGET)
 
 clean:
-	rm -rf $(TARGET)
+	@rm -rf $(BUILD_DIR) $(BIN_DIR)
+
+-include $(OBJECTS:.o=.d)
