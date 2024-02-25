@@ -2,6 +2,7 @@
 #include <iostream>
 #include <termios.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #include "../include/error_handler.h"
 #include "../include/terminal_handler.h"
