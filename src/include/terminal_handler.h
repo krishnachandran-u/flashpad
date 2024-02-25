@@ -5,16 +5,19 @@
 #include <iostream>
 #include <termios.h>
 #include <unistd.h>
+#include <stdbool.h>
+
 #include "error_handler.h"
 
-class RawModeHandler {
+class TerminalHandler {
     public:
-        RawModeHandler();
-        ~RawModeHandler();
+        TerminalHandler();
+        ~TerminalHandler();
         void disableRawMode();
         void enableRawMode();
     private:
         struct termios originalTermios;
+        bool isRawModeEnabled;
 };
 
 #endif

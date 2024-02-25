@@ -1,10 +1,11 @@
 #include <iostream>
+
 #include "include/error_handler.h"
 #include "include/terminal_handler.h"
 
 int main() {
-    RawModeHandler rawModeHandler;
-    rawModeHandler.enableRawMode();
+    TerminalHandler terminalHandler;
+    terminalHandler.enableRawMode();
 
     while(true) {
         char c = '\0';

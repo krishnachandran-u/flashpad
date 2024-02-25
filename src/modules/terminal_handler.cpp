@@ -6,10 +6,12 @@
 #include "../include/error_handler.h"
 #include "../include/terminal_handler.h"
 
-RawModeHandler::RawModeHandler() {}
-
-void RawModeHandler::enableRawMode() {
+TerminalHandler:: TerminalHandler() {
+    isRawModeEnabled = false;
     if(tcgetattr(STDIN_FILENO, &originalTermios) == -1) die("tcgetattr");
+}
+
+void TerminalHandler::enableRawMode() {
     struct termios rawTermios = originalTermios;
     
     rawTermios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
@@ -20,13 +22,19 @@ void RawModeHandler::enableRawMode() {
     rawTermios.c_cc[VTIME] = 1;
 
     if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &rawTermios) == -1) die("tcsetattr");
+
+    isRawModeEnabled = true;
 }
 
-void RawModeHandler::disableRawMode() {
+void TerminalHandler::disableRawMode() {
     if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &originalTermios) == -1) die("tcsetattr");
+
+    isRawModeEnabled = false;
 }
 
-RawModeHandler::~RawModeHandler() {
-    disableRawMode();
+TerminalHandler::~TerminalHandler() {
+    if(isRawModeEnabled){
+        disableRawMode();
+    }
 }
 
