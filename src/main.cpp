@@ -1,22 +1,20 @@
 #include <iostream>
+#include <stdbool.h>
 
 #include "include/errors.h"
 #include "include/terminal_control.h"
+#include "include/editor.h"
 
 int main() {
     TerminalController tc;
     tc.enableRawMode();
 
+    Editor editor;
     while(true) {
-        char c = '\0';
-        read(STDIN_FILENO, &c, 1);
-        if((iscntrl(c))) {
-            std::cout << static_cast<int>(c) << std::endl; //control characters doesnot have character definitions
-        }
-        else {
-            std::cout << static_cast<int>(c) << ' ' << "(\'" << c << "\')" << std::endl;
-        }
+        editor.refresh();
+        editor.handleKeyPress();
     }
+
 
     return 0;
 }
