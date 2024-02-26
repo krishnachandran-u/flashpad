@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "include/error_handler.h"
+#include "include/errors.h"
 #include "include/terminal_control.h"
 
 int main() {

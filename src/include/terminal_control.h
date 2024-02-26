@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-#include "error_handler.h"
+#include "errors.h"
 
 class TerminalController {
     public:

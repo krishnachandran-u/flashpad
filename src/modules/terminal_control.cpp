@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-#include "../include/error_handler.h"
+#include "../include/errors.h"
 #include "../include/terminal_control.h"
 
 TerminalController:: TerminalController() {
