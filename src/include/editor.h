@@ -3,6 +3,8 @@
 
 #define CTRL_KEY(k) ((k) & 0x1f)
 
+#include "buffer.h"
+
 class Editor {
     public:
         Editor();
@@ -19,6 +21,7 @@ class Editor {
             int cols;
         };
         Parameters params;
+        AppendBuffer ab;
 };
 
 #endif

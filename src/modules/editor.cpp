@@ -34,20 +34,19 @@ void Editor::handleKeyPress() {
 }
 
 void Editor::refresh() {
-    write(STDOUT_FILENO, "\x1b[2J", 4); //clear the screen
-    write(STDOUT_FILENO, "\x1b[H", 3); //position cursor to home
+    ab.append("\x1b[2J");  
+    ab.append("\x1b[H");   
     draw();
-    write(STDOUT_FILENO, "\x1b[H", 3);
-
-    return;
+    ab.append("\x1b[H");   
+    std::cout << ab.getBuffer(); 
 }
 
 void Editor::draw() {
     int y;
     for(y = 0; y < params.rows; y++) {
-        write(STDOUT_FILENO, "~", 1);
+        ab.append("~");
         if(y < params.rows - 1) { //avoid newline in the last line when drawing as the cursor will overthrow
-            write(STDOUT_FILENO, "\r\n", 2);
+            ab.append("\r\n");
         }
     }
     return;
