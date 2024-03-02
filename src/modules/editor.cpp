@@ -48,6 +48,7 @@ void Editor::refresh() {
     draw();
     std::string cursorPosition = "\x1b[" + std::to_string(cy + 1) + ";" + std::to_string(cx + 1) + "H";
     ab.append(cursorPosition);
+    ab.append("\x1b[?25h");
     std::cout << ab.getBuffer(); 
 }
 
@@ -79,7 +80,7 @@ int Editor::getWindowSize(int* rows, int* cols) {
         return getCursorPosition(rows, cols);
     }
     else {
-        *rows = ws.ws_col;
+        *rows = ws.ws_row;
         *cols = ws.ws_col;
         return 0;
     }
@@ -89,7 +90,7 @@ int Editor::getCursorPosition(int* rows, int* cols) {
     char buffer[64];
     long unsigned int i = 0;
 
-    if(write(STDOUT_FILENO, "x1b[6n", 4) != 4) return -1;
+    if(write(STDOUT_FILENO, "\x1b[6n", 4) != 4) return -1;
 
     while(i < sizeof(buffer) - 1) {
         if(read(STDIN_FILENO, &buffer[i], 1) != 1) break;
@@ -107,13 +108,13 @@ int Editor::getCursorPosition(int* rows, int* cols) {
 
 void Editor::moveCursor(char c) {
     switch(c) {
-        case 'j':
+        case 'k':
             if(cy > 0) cy--;
             break;
         case 'h':
             if(cx > 0) cx--;
             break;
-        case 'k':
+        case 'j':
             if(cy < params.rows - 1) cy++;
             break;
         case 'l':
