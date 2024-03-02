@@ -12,6 +12,7 @@ class Editor {
         void handleKeyPress(); 
         void refresh();
         void draw();
+        void moveCursor(char c);
         int getWindowSize(int* rows, int* cols);
         int getCursorPosition(int *rows, int *cols);
         ~Editor();

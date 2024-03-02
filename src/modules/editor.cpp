@@ -14,7 +14,7 @@ Editor::Editor() {
 char Editor::readKey() {
     int status;
     char c;
-    while((status = read(STDIN_FILENO, &c, 1) != -1) != 1) { // status != 1 => cannot read
+    while((status = read(STDIN_FILENO, &c, 1) != -1) != 1) {
         if(status == -1 && errno != EAGAIN) { // status == 0 => EOF; status == -1 && errno != EAGAIN => fail 
             die("read");
         }
@@ -28,7 +28,15 @@ void Editor::handleKeyPress() {
     //controls
     switch(c) {
         case CTRL_KEY('q'): 
+            write(STDOUT_FILENO, "\x1b[2J", 4);
+            write(STDOUT_FILENO, "\x1b[H", 3);
             die("quit");
+            break;
+        case 'h': 
+        case 'j':
+        case 'k':
+        case 'l': 
+            moveCursor(c);
             break;
     }
 
@@ -36,11 +44,10 @@ void Editor::handleKeyPress() {
 }
 
 void Editor::refresh() {
-    ab.append("\x1b[?25l"); //hide cursor
     ab.append("\x1b[H");   
     draw();
-    ab.append("\x1b[H");   
-    ab.append("\x1b[?25h"); //show cursor
+    std::string cursorPosition = "\x1b[" + std::to_string(cy + 1) + ";" + std::to_string(cx + 1) + "H";
+    ab.append(cursorPosition);
     std::cout << ab.getBuffer(); 
 }
 
@@ -96,6 +103,24 @@ int Editor::getCursorPosition(int* rows, int* cols) {
     if(sscanf(&buffer[2], "%d;%d", rows, cols) != -1) return -1;
 
     return 0;
+}
+
+void Editor::moveCursor(char c) {
+    switch(c) {
+        case 'j':
+            if(cy > 0) cy--;
+            break;
+        case 'h':
+            if(cx > 0) cx--;
+            break;
+        case 'k':
+            if(cy < params.rows - 1) cy++;
+            break;
+        case 'l':
+            if(cx < params.cols - 1) cx++;
+            break;
+    }
+    return;
 }
 
 Editor::~Editor() {}
