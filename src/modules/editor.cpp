@@ -6,6 +6,8 @@
 #include <stdio.h>
 
 Editor::Editor() {
+    cx = 0;
+    cy = 0;
     if(getWindowSize(&params.rows, &params.cols) == -1) die("getWindowSize");
 }
 
@@ -34,17 +36,28 @@ void Editor::handleKeyPress() {
 }
 
 void Editor::refresh() {
-    ab.append("\x1b[2J");  
+    ab.append("\x1b[?25l"); //hide cursor
     ab.append("\x1b[H");   
     draw();
     ab.append("\x1b[H");   
+    ab.append("\x1b[?25h"); //show cursor
     std::cout << ab.getBuffer(); 
 }
 
 void Editor::draw() {
+    std::string welcome = "~ flashpad 0.0.1 ~";
+    if((int)welcome.length() > params.cols) {
+        welcome = welcome.substr(0, params.cols);
+    }
+    int padding = (params.cols - welcome.length()) / 2;
+    while(padding--) {
+        welcome = " " + welcome;
+    }
     int y;
     for(y = 0; y < params.rows; y++) {
-        ab.append("~");
+        if(y == 10) ab.append(welcome);
+        else ab.append("~");
+        ab.append("\x1b[K"); //clear line
         if(y < params.rows - 1) { //avoid newline in the last line when drawing as the cursor will overthrow
             ab.append("\r\n");
         }

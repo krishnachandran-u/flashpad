@@ -14,7 +14,11 @@ OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.$(OBJ_E
 
 TARGET = $(BIN_DIR)/bonsai
 
+.PHONY: all clean run_all
+
 all: $(TARGET)
+
+run_all: clean all run
 
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)

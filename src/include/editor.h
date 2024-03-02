@@ -16,6 +16,7 @@ class Editor {
         int getCursorPosition(int *rows, int *cols);
         ~Editor();
     private:
+        int cx, cy;
         struct Parameters {
             int rows;
             int cols;

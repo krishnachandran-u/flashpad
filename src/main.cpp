@@ -15,6 +15,5 @@ int main() {
         editor.handleKeyPress();
     }
 
-
     return 0;
 }
